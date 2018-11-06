@@ -45,7 +45,8 @@ public class DataSourceConfig {
                 // Authority tables
                 .addScript("/database/h2/calendar-authorities.sql")
 //                .addScript("/database/h2/calendar-saltedsha256.sql")
-                .addScript("/database/h2/calendar-bcrypt.sql")
+//                .addScript("/database/h2/calendar-bcrypt.sql")
+              
                 .addScript("/database/h2/database-oauth2.sql")
                 
                 .build();
