@@ -1,4 +1,4 @@
-package com.packt.example.scopevalidation;
+package com.packt.example.oauth2providerstate;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,19 +9,21 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 @Configuration
-public class OAuthConfiguration {
+public class OAuth2Provider {
 
     @EnableAuthorizationServer
     public static class AuthorizationServer
         extends AuthorizationServerConfigurerAdapter {
+
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             clients.inMemory()
                 .withClient("clientapp").secret("123")
-                .scopes("read_x", "read_y")
+                .scopes("read", "write")
                 .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://localhost:9000/callback")//spring-security-oauth2 2.3.4.RELEASE與2.2.0.RELEASE的最大差異
+                .redirectUris("http://localhost:9000/resource")//spring-security-oauth2 2.3.4.RELEASE與2.2.0.RELEASE的最大差異
                 ;
         }
+
     }
 
     @EnableResourceServer
@@ -29,7 +31,7 @@ public class OAuthConfiguration {
         extends ResourceServerConfigurerAdapter {
         public void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests().anyRequest().authenticated().and()
-                .requestMatchers().antMatchers("/api/**");
+                    .requestMatchers().antMatchers("/api/**");
         }
     }
 
